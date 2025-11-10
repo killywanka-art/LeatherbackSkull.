@@ -588,4 +588,593 @@
                             <li>Puede pesar hasta 900 kg</li>
                             <li>No tiene caparazón óseo, sino una cubierta de piel y cartílago</li>
                             <li>Se alimenta principalmente de medusas y otros organismos gelatinosos</li>
+                            <li>Puede sumergirse a profundidades de más de 1,000 metros</li>
+                        </ul>
+                        
+                        <h3 id="conservation-title">Estado de conservación:</h3>
+                        <p><i class="fas fa-exclamation-triangle" style="color: #ff6b6b;"></i> <span id="conservation-status">Vulnerable (UICN)</span></p>
+                    </div>
+                </div>
+            </div>
             
+            <footer>
+                <p id="footer-text">Modelo 3D proporcionado por MorphoSource a través de Sketchfab</p>
+                <p class="credits">Página creada para visualización educativa de anatomía animal</p>
+            </footer>
+        </div>
+
+        <div class="mobile-nav">
+            <button class="nav-btn active" onclick="showSection('anatomy-section', this)">
+                <i class="fas fa-bone"></i>
+            </button>
+            <button class="nav-btn" onclick="showSection('species-section', this)">
+                <i class="fas fa-fish"></i>
+            </button>
+            <button class="nav-btn" onclick="showInstructions()">
+                <i class="fas fa-question-circle"></i>
+            </button>
+        </div>
+    </div>
+
+    <footer>
+        <p>Visualizador 3D Educativo - Tortuga Baula</p>
+    </footer>
+
+    <script>
+        // Textos en diferentes idiomas
+        const translations = {
+            es: {
+                title: "Cráneo de Tortuga Baula",
+                subtitle: "Explora en 3D la anatomía única de la tortuga baula (Dermochelys coriacea)",
+                continueText: "Continuar",
+                instructionsBtn: "Instrucciones",
+                rotateBtn: "Rotar",
+                fullscreenBtn: "Pantalla completa",
+                anatomyTitle: "Características Anatómicas",
+                anatomyDesc: "El cráneo de la tortuga baula muestra adaptaciones especializadas para su dieta de medusas y vida en aguas profundas.",
+                adaptationsTitle: "Adaptaciones Principales",
+                features: [
+                    { title: "Estructura de Alimentación", desc: "Posee estructuras en forma de cuchara y papilas esofágicas para capturar y tragar medusas." },
+                    { title: "Visión Adaptada", desc: "Grandes órbitas oculares adaptadas para la visión en aguas profundas y con poca luz." },
+                    { title: "Mandíbula Especializada", desc: "Estructura mandibular adaptada para una dieta blanda de medusas y otros organismos gelatinosos." },
+                    { title: "Adaptaciones para Buceo", desc: "Características craneales que facilitan el buceo a grandes profundidades (hasta 1,280 metros)." }
+                ],
+                speciesTitle: "Información de la Especie",
+                speciesDesc: "La <strong>tortuga baula (<em>Dermochelys coriacea</em>)</strong> es la especie de tortuga marina más grande del mundo y la única representante viviente de la familia Dermochelyidae.",
+                speciesFeatures: "Características principales:",
+                speciesList: [
+                    "Es la tortuga marina más grande, puede alcanzar 2.7 metros de longitud",
+                    "Puede pesar hasta 900 kg",
+                    "No tiene caparazón óseo, sino una cubierta de piel y cartílago",
+                    "Se alimenta principalmente de medusas y otros organismos gelatinosos",
+                    "Puede sumergirse a profundidades de más de 1,000 metros"
+                ],
+                conservationTitle: "Estado de conservación:",
+                conservationStatus: "Vulnerable (UICN)",
+                footerText: "Modelo 3D proporcionado por MorphoSource a través de Sketchfab",
+                loadingText: "Cargando modelo 3D...",
+                instructions: "💡 INSTRUCCIONES:\n\n• Haz clic y arrastra para rotar el modelo 3D\n• Usa la rueda del mouse para hacer zoom\n• Mantén Shift + arrastra para mover el modelo\n• Usa los botones inferiores para navegar entre secciones\n• Selecciona diferentes idiomas desde el menú principal",
+                rotateMessage: "🔄 El modelo está rotando automáticamente. Puedes seguir interactuando con él usando el mouse.",
+                fullscreenMessage: "🔲 Modo pantalla completa activado. Presiona ESC para salir.",
+                errorMessage: "❌ Ha ocurrido un error. Por favor, recarga la página.",
+                modelLoadError: "❌ Error al cargar el modelo 3D. Verifica tu conexión a internet."
+            },
+            en: {
+                title: "Leatherback Sea Turtle Skull",
+                subtitle: "Explore in 3D the unique anatomy of the leatherback sea turtle (Dermochelys coriacea)",
+                continueText: "Continue",
+                instructionsBtn: "Instructions",
+                rotateBtn: "Rotate",
+                fullscreenBtn: "Fullscreen",
+                anatomyTitle: "Anatomical Features",
+                anatomyDesc: "The leatherback sea turtle skull shows specialized adaptations for its jellyfish diet and deep-water life.",
+                adaptationsTitle: "Main Adaptations",
+                features: [
+                    { title: "Feeding Structure", desc: "Has spoon-shaped structures and esophageal papillae for capturing and swallowing jellyfish." },
+                    { title: "Adapted Vision", desc: "Large eye orbits adapted for vision in deep waters and low light conditions." },
+                    { title: "Specialized Jaw", desc: "Mandibular structure adapted for a soft diet of jellyfish and other gelatinous organisms." },
+                    { title: "Diving Adaptations", desc: "Cranial features that facilitate diving to great depths (up to 1,280 meters)." }
+                ],
+                speciesTitle: "Species Information",
+                speciesDesc: "The <strong>leatherback sea turtle (<em>Dermochelys coriacea</em>)</strong> is the largest sea turtle species in the world and the only living representative of the Dermochelyidae family.",
+                speciesFeatures: "Main characteristics:",
+                speciesList: [
+                    "It is the largest sea turtle, can reach 2.7 meters in length",
+                    "Can weigh up to 900 kg",
+                    "Does not have a bony shell, but a covering of skin and cartilage",
+                    "Feeds mainly on jellyfish and other gelatinous organisms",
+                    "Can dive to depths of more than 1,000 meters"
+                ],
+                conservationTitle: "Conservation status:",
+                conservationStatus: "Vulnerable (IUCN)",
+                footerText: "3D model provided by MorphoSource via Sketchfab",
+                loadingText: "Loading 3D model...",
+                instructions: "💡 INSTRUCTIONS:\n\n• Click and drag to rotate the 3D model\n• Use mouse wheel to zoom\n• Hold Shift + drag to move the model\n• Use bottom buttons to navigate between sections\n• Select different languages from the main menu",
+                rotateMessage: "🔄 The model is now rotating automatically. You can still interact with it using your mouse.",
+                fullscreenMessage: "🔲 Fullscreen mode activated. Press ESC to exit.",
+                errorMessage: "❌ An error has occurred. Please reload the page.",
+                modelLoadError: "❌ Error loading the 3D model. Check your internet connection."
+            },
+            fr: {
+                title: "Crâne de Tortue Luth",
+                subtitle: "Explorez en 3D l'anatomie unique de la tortue luth (Dermochelys coriacea)",
+                continueText: "Continuer",
+                instructionsBtn: "Instructions",
+                rotateBtn: "Tourner",
+                fullscreenBtn: "Plein écran",
+                anatomyTitle: "Caractéristiques Anatomiques",
+                anatomyDesc: "Le crâne de la tortue luth montre des adaptations spécialisées pour son régime de méduses et sa vie en eaux profondes.",
+                adaptationsTitle: "Adaptations Principales",
+                features: [
+                    { title: "Structure d'Alimentation", desc: "Possède des structures en forme de cuillère et des papilles œsophagiennes pour capturer et avaler des méduses." },
+                    { title: "Vision Adaptée", desc: "Grandes orbites oculaires adaptées pour la vision en eaux profondes et en faible luminosité." },
+                    { title: "Mâchoire Spécialisée", desc: "Structure mandibulaire adaptée pour un régime mou de méduses et d'autres organismes gélatineux." },
+                    { title: "Adaptations à la Plongée", desc: "Caractéristiques crâniennes qui facilitent la plongée à de grandes profondeurs (jusqu'à 1 280 mètres)." }
+                ],
+                speciesTitle: "Informations sur l'Espèce",
+                speciesDesc: "La <strong>tortue luth (<em>Dermochelys coriacea</em>)</strong> est la plus grande espèce de tortue marine au monde et le seul représentant vivant de la famille des Dermochelyidae.",
+                speciesFeatures: "Caractéristiques principales:",
+                speciesList: [
+                    "C'est la plus grande tortue marine, peut atteindre 2,7 mètres de longueur",
+                    "Peut peser jusqu'à 900 kg",
+                    "N'a pas de carapace osseuse, mais une couverture de peau et de cartilage",
+                    "Se nourrit principalement de méduses et d'autres organismes gélatineux",
+                    "Peut plonger à des profondeurs de plus de 1 000 mètres"
+                ],
+                conservationTitle: "Statut de conservation:",
+                conservationStatus: "Vulnérable (UICN)",
+                footerText: "Modèle 3D fourni par MorphoSource via Sketchfab",
+                loadingText: "Chargement du modèle 3D...",
+                instructions: "💡 INSTRUCTIONS:\n\n• Cliquez et glissez pour faire pivoter le modèle 3D\n• Utilisez la molette de la souris pour zoomer\n• Maintenez Maj + glisser pour déplacer le modèle\n• Utilisez les boutons du bas pour naviguer entre les sections\n• Sélectionnez différentes langues depuis le menu principal",
+                rotateMessage: "🔄 Le modèle tourne maintenant automatiquement. Vous pouvez toujours interagir avec lui à l'aide de votre souris.",
+                fullscreenMessage: "🔲 Mode plein écran activé. Appuyez sur ESC pour quitter.",
+                errorMessage: "❌ Une erreur s'est produite. Veuillez recharger la page.",
+                modelLoadError: "❌ Erreur lors du chargement du modèle 3D. Vérifiez votre connexion Internet."
+            },
+            de: {
+                title: "Schädel der Lederschildkröte",
+                subtitle: "Erkunden Sie in 3D die einzigartige Anatomie der Lederschildkröte (Dermochelys coriacea)",
+                continueText: "Weiter",
+                instructionsBtn: "Anweisungen",
+                rotateBtn: "Drehen",
+                fullscreenBtn: "Vollbild",
+                anatomyTitle: "Anatomische Merkmale",
+                anatomyDesc: "Der Schädel der Lederschildkröte zeigt spezialisierte Anpassungen für ihre Quallennahrung und das Leben in tiefen Gewässern.",
+                adaptationsTitle: "Hauptanpassungen",
+                features: [
+                    { title: "Fütterungsstruktur", desc: "Besitzt löffelförmige Strukturen und Speiseröhrenpapillen zum Einfangen und Schlucken von Quallen." },
+                    { title: "Angepasstes Sehvermögen", desc: "Große Augenhöhlen, die für das Sehen in tiefen Gewässern und bei schlechten Lichtverhältnissen angepasst sind." },
+                    { title: "Spezialisierter Kiefer", desc: "Kieferstruktur, die für eine weiche Ernährung mit Quallen und anderen gallertartigen Organismen angepasst ist." },
+                    { title: "Tauchanpassungen", desc: "Schädelmerkmale, die das Tauchen in große Tiefen (bis zu 1.280 Meter) erleichtern." }
+                ],
+                speciesTitle: "Artinformation",
+                speciesDesc: "Die <strong>Lederschildkröte (<em>Dermochelys coriacea</em>)</strong> ist die größte Meeresschildkrötenart der Welt und der einzige lebende Vertreter der Familie Dermochelyidae.",
+                speciesFeatures: "Hauptmerkmale:",
+                speciesList: [
+                    "Sie ist die größte Meeresschildkröte und kann 2,7 Meter lang werden",
+                    "Kann bis zu 900 kg wiegen",
+                    "Hat keinen knöchernen Panzer, sondern eine Bedeckung aus Haut und Knorpel",
+                    "Ernährt sich hauptsächlich von Quallen und anderen gallertartigen Organismen",
+                    "Kann in Tiefen von mehr als 1.000 Metern tauchen"
+                ],
+                conservationTitle: "Erhaltungsstatus:",
+                conservationStatus: "Gefährdet (IUCN)",
+                footerText: "3D-Modell bereitgestellt von MorphoSource über Sketchfab",
+                loadingText: "Lade 3D-Modell...",
+                instructions: "💡 ANWEISUNGEN:\n\n• Klicken und ziehen, um das 3D-Modell zu drehen\n• Mausrad zum Zoomen verwenden\n• Umschalt + Ziehen gedrückt halten, um das Modell zu bewegen\n• Untere Buttons verwenden, um zwischen Abschnitten zu navigieren\n• Wählen Sie verschiedene Sprachen aus dem Hauptmenü",
+                rotateMessage: "🔄 Das Modell dreht sich jetzt automatisch. Sie können weiterhin mit der Maus damit interagieren.",
+                fullscreenMessage: "🔲 Vollbildmodus aktiviert. Drücken Sie ESC, um zu beenden.",
+                errorMessage: "❌ Ein Fehler ist aufgetreten. Bitte laden Sie die Seite neu.",
+                modelLoadError: "❌ Fehler beim Laden des 3D-Modells. Überprüfen Sie Ihre Internetverbindung."
+            }
+        };
+
+        // Variables globales
+        let currentLanguage = 'es';
+        let selectedLanguage = null;
+        let isModelLoaded = false;
+        let isFullscreen = false;
+
+        // Inicializar la aplicación cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                initializeApp();
+                setupEventListeners();
+                preloadModel();
+            } catch (error) {
+                handleError(error, 'initializeApp');
+            }
+        });
+
+        // Función para inicializar la aplicación
+        function initializeApp() {
+            // Seleccionar español por defecto
+            selectLanguage('es');
+            
+            // Configurar el manejo de errores global
+            window.addEventListener('error', function(event) {
+                handleError(event.error, 'global');
+            });
+            
+            // Configurar el manejo de promesas rechazadas
+            window.addEventListener('unhandledrejection', function(event) {
+                handleError(event.reason, 'promise');
+            });
+        }
+
+        // Configurar event listeners
+        function setupEventListeners() {
+            // Eventos para botones de idioma
+            const languageButtons = document.querySelectorAll('.language-btn');
+            languageButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    try {
+                        const lang = this.getAttribute('data-lang');
+                        selectLanguage(lang);
+                    } catch (error) {
+                        handleError(error, 'languageSelection');
+                    }
+                });
+            });
+
+            // Evento para botón continuar
+            const continueBtn = document.getElementById('continue-btn');
+            if (continueBtn) {
+                continueBtn.addEventListener('click', function() {
+                    try {
+                        if (selectedLanguage) {
+                            currentLanguage = selectedLanguage;
+                            changeLanguage(currentLanguage);
+                            showContentPage();
+                        }
+                    } catch (error) {
+                        handleError(error, 'continueButton');
+                    }
+                });
+            }
+
+            // Evento para cuando el modelo 3D se carga
+            const modelIframe = document.getElementById('model-iframe');
+            if (modelIframe) {
+                modelIframe.addEventListener('load', function() {
+                    try {
+                        handleModelLoad();
+                    } catch (error) {
+                        handleError(error, 'modelLoad');
+                    }
+                });
+                
+                modelIframe.addEventListener('error', function() {
+                    try {
+                        handleModelError();
+                    } catch (error) {
+                        handleError(error, 'modelError');
+                    }
+                });
+            }
+
+            // Evento para salir de pantalla completa
+            document.addEventListener('fullscreenchange', function() {
+                isFullscreen = !!document.fullscreenElement;
+            });
+        }
+
+        // Pre-cargar el modelo 3D
+        function preloadModel() {
+            try {
+                const modelIframe = document.getElementById('model-iframe');
+                if (modelIframe) {
+                    // Forzar la carga del iframe
+                    modelIframe.src = modelIframe.src;
+                }
+            } catch (error) {
+                handleError(error, 'preloadModel');
+            }
+        }
+
+        // Seleccionar idioma
+        function selectLanguage(lang) {
+            try {
+                // Validar que el idioma existe
+                if (!translations[lang]) {
+                    throw new Error(`Idioma no soportado: ${lang}`);
+                }
+                
+                // Remover selección anterior
+                document.querySelectorAll('.language-btn').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                
+                // Seleccionar nuevo idioma
+                const selectedButton = document.querySelector(`.language-btn[data-lang="${lang}"]`);
+                if (selectedButton) {
+                    selectedButton.classList.add('selected');
+                    selectedLanguage = lang;
+                    
+                    // Habilitar botón continuar
+                    const continueBtn = document.getElementById('continue-btn');
+                    if (continueBtn) {
+                        continueBtn.disabled = false;
+                    }
+                    
+                    // Actualizar texto del botón continuar
+                    const continueText = document.getElementById('continue-text');
+                    if (continueText && translations[lang].continueText) {
+                        continueText.textContent = translations[lang].continueText;
+                    }
+                }
+            } catch (error) {
+                handleError(error, 'selectLanguage');
+            }
+        }
+
+        // Cambiar idioma de toda la aplicación
+        function changeLanguage(lang) {
+            try {
+                const trans = translations[lang];
+                
+                if (!trans) {
+                    throw new Error(`No se encontraron traducciones para: ${lang}`);
+                }
+
+                // Actualizar textos principales
+                updateElementText('page-title', trans.title);
+                updateElementText('page-subtitle', trans.subtitle);
+                updateElementText('continue-text', trans.continueText);
+                updateElementText('instructions-btn', trans.instructionsBtn);
+                updateElementText('rotate-btn', trans.rotateBtn);
+                updateElementText('fullscreen-btn', trans.fullscreenBtn);
+                updateElementText('anatomy-title', trans.anatomyTitle);
+                updateElementText('anatomy-desc', trans.anatomyDesc);
+                updateElementText('adaptations-title', trans.adaptationsTitle);
+                updateElementText('species-title', trans.speciesTitle);
+                updateElementText('species-features', trans.speciesFeatures);
+                updateElementText('conservation-title', trans.conservationTitle);
+                updateElementText('conservation-status', trans.conservationStatus);
+                updateElementText('footer-text', trans.footerText);
+                updateElementText('loading-text', trans.loadingText);
+
+                // Actualizar descripción de especie (HTML)
+                const speciesDesc = document.getElementById('species-desc');
+                if (speciesDesc) {
+                    speciesDesc.innerHTML = trans.speciesDesc;
+                }
+
+                // Actualizar características
+                const featureTitles = document.querySelectorAll('.feature-title');
+                const featureDescs = document.querySelectorAll('.feature-desc');
+                
+                trans.features.forEach((feature, index) => {
+                    if (featureTitles[index]) {
+                        featureTitles[index].textContent = feature.title;
+                    }
+                    if (featureDescs[index]) {
+                        featureDescs[index].textContent = feature.desc;
+                    }
+                });
+
+                // Actualizar lista de especies
+                const speciesList = document.getElementById('species-list');
+                if (speciesList) {
+                    speciesList.innerHTML = '';
+                    trans.speciesList.forEach(item => {
+                        const li = document.createElement('li');
+                        li.textContent = item;
+                        speciesList.appendChild(li);
+                    });
+                }
+                
+                currentLanguage = lang;
+            } catch (error) {
+                handleError(error, 'changeLanguage');
+            }
+        }
+
+        // Función auxiliar para actualizar texto de elementos
+        function updateElementText(elementId, text) {
+            const element = document.getElementById(elementId);
+            if (element && text) {
+                element.textContent = text;
+            }
+        }
+
+        // Mostrar página de contenido
+        function showContentPage() {
+            try {
+                const languagePage = document.getElementById('language-page');
+                const contentPage = document.getElementById('content-page');
+                
+                if (languagePage && contentPage) {
+                    languagePage.classList.remove('visible');
+                    languagePage.classList.add('hidden');
+                    
+                    contentPage.classList.remove('hidden');
+                    contentPage.classList.add('visible');
+                    
+                    // Mostrar notificación de éxito
+                    showNotification('¡Bienvenido!', 'success');
+                }
+            } catch (error) {
+                handleError(error, 'showContentPage');
+            }
+        }
+
+        // Volver a selección de idioma
+        function goBackToLanguageSelection() {
+            try {
+                const languagePage = document.getElementById('language-page');
+                const contentPage = document.getElementById('content-page');
+                
+                if (languagePage && contentPage) {
+                    contentPage.classList.remove('visible');
+                    contentPage.classList.add('hidden');
+                    
+                    languagePage.classList.remove('hidden');
+                    languagePage.classList.add('visible');
+                }
+            } catch (error) {
+                handleError(error, 'goBackToLanguageSelection');
+            }
+        }
+
+        // Mostrar sección específica
+        function showSection(sectionId, button) {
+            try {
+                // Ocultar todas las secciones
+                document.querySelectorAll('.section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // Remover active de todos los botones
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Mostrar sección seleccionada
+                const targetSection = document.getElementById(sectionId);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                }
+                
+                // Activar botón
+                if (button) {
+                    button.classList.add('active');
+                }
+            } catch (error) {
+                handleError(error, 'showSection');
+            }
+        }
+
+        // Manejar carga del modelo 3D
+        function handleModelLoad() {
+            try {
+                isModelLoaded = true;
+                const loadingOverlay = document.getElementById('model-loading');
+                const modelIframe = document.getElementById('model-iframe');
+                
+                if (loadingOverlay) {
+                    loadingOverlay.style.display = 'none';
+                }
+                
+                if (modelIframe) {
+                    modelIframe.classList.remove('hidden');
+                }
+                
+                console.log('Modelo 3D cargado correctamente');
+            } catch (error) {
+                handleError(error, 'handleModelLoad');
+            }
+        }
+
+        // Manejar error de carga del modelo 3D
+        function handleModelError() {
+            try {
+                const loadingOverlay = document.getElementById('model-loading');
+                const loadingText = document.getElementById('loading-text');
+                
+                if (loadingOverlay && loadingText) {
+                    loadingText.textContent = translations[currentLanguage]?.modelLoadError || 'Error al cargar el modelo 3D';
+                    loadingOverlay.style.background = 'rgba(220, 38, 38, 0.1)';
+                }
+                
+                showNotification(translations[currentLanguage]?.modelLoadError || 'Error al cargar el modelo 3D', 'error');
+                
+                console.error('Error al cargar el modelo 3D');
+            } catch (error) {
+                handleError(error, 'handleModelError');
+            }
+        }
+
+        // Mostrar instrucciones
+        function showInstructions() {
+            try {
+                const instructions = translations[currentLanguage]?.instructions || translations.es.instructions;
+                alert(instructions);
+            } catch (error) {
+                handleError(error, 'showInstructions');
+            }
+        }
+
+        // Rotar modelo (función simulada)
+        function rotateModel() {
+            try {
+                if (!isModelLoaded) {
+                    showNotification('El modelo aún se está cargando. Por favor, espere.', 'info');
+                    return;
+                }
+                
+                const message = translations[currentLanguage]?.rotateMessage || translations.es.rotateMessage;
+                showNotification(message, 'info');
+                
+                // En una implementación real, aquí se controlaría el modelo 3D
+                // mediante la API de Sketchfab para iniciar rotación automática
+            } catch (error) {
+                handleError(error, 'rotateModel');
+            }
+        }
+
+        // Alternar pantalla completa
+        function toggleFullscreen() {
+            try {
+                const modelContainer = document.querySelector('.model-container');
+                
+                if (!document.fullscreenElement && modelContainer) {
+                    if (modelContainer.requestFullscreen) {
+                        modelContainer.requestFullscreen();
+                    } else if (modelContainer.webkitRequestFullscreen) {
+                        modelContainer.webkitRequestFullscreen();
+                    } else if (modelContainer.msRequestFullscreen) {
+                        modelContainer.msRequestFullscreen();
+                    }
+                    
+                    isFullscreen = true;
+                    showNotification(translations[currentLanguage]?.fullscreenMessage || translations.es.fullscreenMessage, 'info');
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if (document.webkitExitFullscreen) {
+                        document.webkitExitFullscreen();
+                    } else if (document.msExitFullscreen) {
+                        document.msExitFullscreen();
+                    }
+                    
+                    isFullscreen = false;
+                }
+            } catch (error) {
+                handleError(error, 'toggleFullscreen');
+            }
+        }
+
+        // Mostrar notificación
+        function showNotification(message, type = 'info') {
+            try {
+                const notification = document.getElementById('notification');
+                if (!notification) return;
+                
+                notification.textContent = message;
+                notification.className = 'notification';
+                notification.classList.add(type);
+                notification.classList.add('show');
+                
+                // Ocultar notificación después de 5 segundos
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 5000);
+            } catch (error) {
+                console.error('Error al mostrar notificación:', error);
+            }
+        }
+
+        // Manejar errores
+        function handleError(error, context = 'unknown') {
+            console.error(`Error en ${context}:`, error);
+            
+            // Mostrar notificación de error al usuario
+            const errorMessage = translations[currentLanguage]?.errorMessage || translations.es.errorMessage;
+            showNotification(errorMessage, 'error');
+            
+            // En un entorno de producción, aquí podrías enviar el error a un servicio de monitoreo
+        }
+    </script>
+</body>
+</html>
