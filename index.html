@@ -1,1 +1,591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizador 3D - Cráneo de Tortuga Baula</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --azul-profundo: #1E3A8A;
+            --azul-medio: #3B82F6;
+            --azul-claro: #60A5FA;
+            --gris-oscuro: #374151;
+            --blanco: #FFFFFF;
+            --gris-claro: #F5F5F5;
+            --texto-oscuro: #1E293B;
+            --error: #DC2626;
+            --exito: #059669;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--azul-medio) 0%, var(--azul-profundo) 100%);
+            color: var(--texto-oscuro);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: background 0.5s ease;
+        }
+        
+        .language-container, .content-page {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 40px 30px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        
+        .language-container.hidden, .content-page.hidden {
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+        }
+        
+        .language-container.visible, .content-page.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+        
+        .language-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--azul-claro), var(--azul-profundo));
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--azul-profundo);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--azul-medio);
+            margin-bottom: 30px;
+        }
+        
+        .language-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .language-btn {
+            background: var(--gris-claro);
+            border: 2px solid transparent;
+            padding: 18px 20px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--texto-oscuro);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .language-btn:hover {
+            background: var(--azul-medio);
+            color: var(--blanco);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .language-btn:active {
+            transform: translateY(-2px);
+        }
+        
+        .language-btn.selected {
+            background: var(--azul-profundo);
+            color: var(--blanco);
+            border-color: var(--gris-oscuro);
+        }
+        
+        .continue-btn {
+            background: var(--azul-profundo);
+            color: var(--blanco);
+            border: none;
+            padding: 16px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .continue-btn:hover {
+            background: var(--gris-oscuro);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .continue-btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .continue-btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            opacity: 0.6;
+        }
+        
+        .turtle-icon {
+            font-size: 4rem;
+            color: var(--azul-profundo);
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: var(--blanco);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .content-page {
+            display: none;
+            max-width: 800px;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--azul-profundo);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: var(--azul-profundo);
+            color: white;
+            transform: scale(1.1);
+        }
 
+        /* Estilos para la página de contenido */
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 15px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 25px 15px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--azul-claro), var(--azul-profundo));
+        }
+        
+        .model-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            border-radius: 15px;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--gris-claro);
+            border-top: 5px solid var(--azul-profundo);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .model-container iframe {
+            width: 100%;
+            height: 300px;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: opacity 0.3s ease;
+        }
+        
+        .model-container iframe.hidden {
+            opacity: 0;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .controls button {
+            flex: 1;
+            background: var(--azul-profundo);
+            color: var(--blanco);
+            border: none;
+            padding: 12px 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .controls button:hover {
+            background: var(--gris-oscuro);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .info-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            color: var(--azul-profundo);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            border-bottom: 2px solid var(--azul-medio);
+            padding-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        h2 i {
+            color: var(--azul-medio);
+        }
+        
+        h3 {
+            color: var(--azul-profundo);
+            margin: 15px 0 10px;
+            font-size: 1.2rem;
+        }
+        
+        .characteristics {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .characteristic {
+            background: rgba(59, 130, 246, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+            border-left: 4px solid var(--azul-medio);
+        }
+        
+        .characteristic:hover {
+            transform: translateY(-5px);
+            background: rgba(59, 130, 246, 0.2);
+        }
+        
+        .characteristic h4 {
+            color: var(--azul-profundo);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .characteristic i {
+            color: var(--azul-medio);
+        }
+        
+        .species-info {
+            background: rgba(30, 58, 138, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 15px;
+            border-left: 4px solid var(--azul-profundo);
+        }
+        
+        .mobile-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 50px;
+            padding: 10px 20px;
+            display: flex;
+            gap: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+        }
+        
+        .nav-btn {
+            background: transparent;
+            color: var(--azul-profundo);
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            box-shadow: none;
+        }
+        
+        .nav-btn.active {
+            background: var(--azul-profundo);
+            color: white;
+        }
+        
+        .nav-btn:hover {
+            background: var(--azul-profundo);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.error {
+            background: var(--error);
+        }
+        
+        .notification.success {
+            background: var(--exito);
+        }
+        
+        .notification.info {
+            background: var(--azul-medio);
+        }
+    </style>
+</head>
+<body>
+    <!-- Notificación para mensajes al usuario -->
+    <div id="notification" class="notification"></div>
+    
+    <!-- Página de selección de idioma -->
+    <div id="language-page" class="language-container visible">
+        <div class="turtle-icon">
+            <i class="fas fa-turtle"></i>
+        </div>
+        <h1>Selecciona tu idioma</h1>
+        <p class="subtitle">Choose your language | Choisissez votre langue | Wählen Sie Ihre Sprache</p>
+        
+        <div class="language-options">
+            <button class="language-btn" data-lang="es">
+                <i class="fas fa-language"></i> Español
+            </button>
+            <button class="language-btn" data-lang="en">
+                <i class="fas fa-language"></i> English
+            </button>
+            <button class="language-btn" data-lang="fr">
+                <i class="fas fa-language"></i> Français
+            </button>
+            <button class="language-btn" data-lang="de">
+                <i class="fas fa-language"></i> Deutsch
+            </button>
+        </div>
+        
+        <button id="continue-btn" class="continue-btn" disabled>
+            <i class="fas fa-arrow-right"></i> <span id="continue-text">Continuar</span>
+        </button>
+    </div>
+    
+    <!-- Página de contenido (inicialmente oculta) -->
+    <div id="content-page" class="content-page hidden">
+        <button class="back-btn" onclick="goBackToLanguageSelection()">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        
+        <div class="container">
+            <header>
+                <h1 id="page-title">Cráneo de Tortuga Baula</h1>
+                <p id="page-subtitle" class="subtitle">Explora en 3D la anatomía única de la tortuga baula (Dermochelys coriacea)</p>
+            </header>
+            
+            <div class="model-container">
+                <div class="loading-overlay" id="model-loading">
+                    <div class="spinner"></div>
+                    <p id="loading-text">Cargando modelo 3D...</p>
+                </div>
+                <div class="sketchfab-embed-wrapper">
+                    <iframe title="Leatherback Sea Turtle Skull" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/bf18f1c673544dfca69c05949a2efbb0/embed" id="model-iframe" class="hidden"></iframe>
+                </div>
+                <div class="controls">
+                    <button onclick="showInstructions()">
+                        <i class="fas fa-info-circle"></i> <span id="instructions-btn">Instrucciones</span>
+                    </button>
+                    <button onclick="rotateModel()">
+                        <i class="fas fa-sync-alt"></i> <span id="rotate-btn">Rotar</span>
+                    </button>
+                    <button onclick="toggleFullscreen()">
+                        <i class="fas fa-expand"></i> <span id="fullscreen-btn">Pantalla completa</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div id="anatomy-section" class="section active">
+                <div class="info-container">
+                    <h2><i class="fas fa-bone"></i> <span id="anatomy-title">Características Anatómicas</span></h2>
+                    <p id="anatomy-desc">El cráneo de la tortuga baula muestra adaptaciones especializadas para su dieta de medusas y vida en aguas profundas.</p>
+                    
+                    <h3 id="adaptations-title">Adaptaciones Principales</h3>
+                    <div class="characteristics">
+                        <div class="characteristic">
+                            <h4><i class="fas fa-teeth"></i> <span class="feature-title">Estructura de Alimentación</span></h4>
+                            <p class="feature-desc">Posee estructuras en forma de cuchara y papilas esofágicas para capturar y tragar medusas.</p>
+                        </div>
+                        <div class="characteristic">
+                            <h4><i class="fas fa-eye"></i> <span class="feature-title">Visión Adaptada</span></h4>
+                            <p class="feature-desc">Grandes órbitas oculares adaptadas para la visión en aguas profundas y con poca luz.</p>
+                        </div>
+                        <div class="characteristic">
+                            <h4><i class="fas fa-grip-lines"></i> <span class="feature-title">Mandíbula Especializada</span></h4>
+                            <p class="feature-desc">Estructura mandibular adaptada para una dieta blanda de medusas y otros organismos gelatinosos.</p>
+                        </div>
+                        <div class="characteristic">
+                            <h4><i class="fas fa-water"></i> <span class="feature-title">Adaptaciones para Buceo</span></h4>
+                            <p class="feature-desc">Características craneales que facilitan el buceo a grandes profundidades (hasta 1,280 metros).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="species-section" class="section">
+                <div class="info-container">
+                    <h2><i class="fas fa-fish"></i> <span id="species-title">Información de la Especie</span></h2>
+                    <div class="species-info">
+                        <p id="species-desc">La <strong>tortuga baula (<em>Dermochelys coriacea</em>)</strong> es la especie de tortuga marina más grande del mundo y la única representante viviente de la familia Dermochelyidae.</p>
+                        
+                        <h3 id="species-features">Características principales:</h3>
+                        <ul id="species-list" style="margin-left: 20px; margin-top: 10px;">
+                            <li>Es la tortuga marina más grande, puede alcanzar 2.7 metros de longitud</li>
+                            <li>Puede pesar hasta 900 kg</li>
+                            <li>No tiene caparazón óseo, sino una cubierta de piel y cartílago</li>
+                            <li>Se alimenta principalmente de medusas y otros organismos gelatinosos</li>
+            
