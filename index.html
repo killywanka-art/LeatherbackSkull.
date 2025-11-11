@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualizador 3D - Cráneo de Tortuga Baula</title>
+    <title>Visualizador 3D - Cráneo de Tortuga Marina</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -14,19 +14,19 @@
         }
         
         :root {
-            --azul-profundo: #1E3A8A;
-            --azul-medio: #3B82F6;
-            --azul-claro: #60A5FA;
-            --gris-oscuro: #374151;
+            --turquesa: #40E0D0;
+            --turquesa-oscuro: #20B2AA;
+            --jade: #00A86B;
+            --jade-oscuro: #007A5E;
             --blanco: #FFFFFF;
             --gris-claro: #F5F5F5;
-            --texto-oscuro: #1E293B;
+            --texto-oscuro: #1A3C34;
             --error: #DC2626;
             --exito: #059669;
         }
         
         body {
-            background: linear-gradient(135deg, var(--azul-medio) 0%, var(--azul-profundo) 100%);
+            background: linear-gradient(135deg, var(--turquesa) 0%, var(--jade) 100%);
             color: var(--texto-oscuro);
             line-height: 1.6;
             min-height: 100vh;
@@ -51,6 +51,11 @@
             transition: transform 0.3s ease, opacity 0.3s ease;
         }
         
+        .content-page {
+            max-width: 800px;
+            display: none;
+        }
+        
         .language-container.hidden, .content-page.hidden {
             opacity: 0;
             transform: translateY(20px);
@@ -70,13 +75,13 @@
             left: 0;
             width: 100%;
             height: 8px;
-            background: linear-gradient(90deg, var(--azul-claro), var(--azul-profundo));
+            background: linear-gradient(90deg, var(--turquesa), var(--jade));
         }
         
         h1 {
             font-size: 2rem;
             margin-bottom: 10px;
-            color: var(--azul-profundo);
+            color: var(--jade-oscuro);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -85,7 +90,7 @@
         
         .subtitle {
             font-size: 1.1rem;
-            color: var(--azul-medio);
+            color: var(--jade);
             margin-bottom: 30px;
         }
         
@@ -114,7 +119,7 @@
         }
         
         .language-btn:hover {
-            background: var(--azul-medio);
+            background: var(--turquesa);
             color: var(--blanco);
             transform: translateY(-5px);
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
@@ -125,13 +130,13 @@
         }
         
         .language-btn.selected {
-            background: var(--azul-profundo);
+            background: var(--jade);
             color: var(--blanco);
-            border-color: var(--gris-oscuro);
+            border-color: var(--jade-oscuro);
         }
         
         .continue-btn {
-            background: var(--azul-profundo);
+            background: var(--jade);
             color: var(--blanco);
             border: none;
             padding: 16px 30px;
@@ -149,7 +154,7 @@
         }
         
         .continue-btn:hover {
-            background: var(--gris-oscuro);
+            background: var(--jade-oscuro);
             transform: translateY(-3px);
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
         }
@@ -168,7 +173,7 @@
         
         .turtle-icon {
             font-size: 4rem;
-            color: var(--azul-profundo);
+            color: var(--jade-oscuro);
             margin-bottom: 20px;
             animation: float 3s ease-in-out infinite;
         }
@@ -187,17 +192,12 @@
             opacity: 0.8;
         }
         
-        .content-page {
-            display: none;
-            max-width: 800px;
-        }
-        
         .back-btn {
             position: fixed;
             top: 20px;
             left: 20px;
             background: rgba(255, 255, 255, 0.9);
-            color: var(--azul-profundo);
+            color: var(--jade);
             border: none;
             width: 50px;
             height: 50px;
@@ -213,7 +213,7 @@
         }
         
         .back-btn:hover {
-            background: var(--azul-profundo);
+            background: var(--jade);
             color: white;
             transform: scale(1.1);
         }
@@ -243,7 +243,7 @@
             left: 0;
             width: 100%;
             height: 5px;
-            background: linear-gradient(90deg, var(--azul-claro), var(--azul-profundo));
+            background: linear-gradient(90deg, var(--turquesa), var(--jade));
         }
         
         .model-container {
@@ -275,7 +275,7 @@
             width: 50px;
             height: 50px;
             border: 5px solid var(--gris-claro);
-            border-top: 5px solid var(--azul-profundo);
+            border-top: 5px solid var(--jade);
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-bottom: 15px;
@@ -308,7 +308,7 @@
         
         .controls button {
             flex: 1;
-            background: var(--azul-profundo);
+            background: var(--jade);
             color: var(--blanco);
             border: none;
             padding: 12px 15px;
@@ -324,7 +324,7 @@
         }
         
         .controls button:hover {
-            background: var(--gris-oscuro);
+            background: var(--jade-oscuro);
             transform: translateY(-2px);
             box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
         }
@@ -338,10 +338,10 @@
         }
         
         h2 {
-            color: var(--azul-profundo);
+            color: var(--jade-oscuro);
             margin-bottom: 15px;
             font-size: 1.5rem;
-            border-bottom: 2px solid var(--azul-medio);
+            border-bottom: 2px solid var(--turquesa);
             padding-bottom: 8px;
             display: flex;
             align-items: center;
@@ -349,11 +349,11 @@
         }
         
         h2 i {
-            color: var(--azul-medio);
+            color: var(--turquesa);
         }
         
         h3 {
-            color: var(--azul-profundo);
+            color: var(--jade);
             margin: 15px 0 10px;
             font-size: 1.2rem;
         }
@@ -366,20 +366,20 @@
         }
         
         .characteristic {
-            background: rgba(59, 130, 246, 0.1);
+            background: rgba(64, 224, 208, 0.1);
             padding: 15px;
             border-radius: 15px;
             transition: transform 0.3s ease;
-            border-left: 4px solid var(--azul-medio);
+            border-left: 4px solid var(--turquesa);
         }
         
         .characteristic:hover {
             transform: translateY(-5px);
-            background: rgba(59, 130, 246, 0.2);
+            background: rgba(64, 224, 208, 0.2);
         }
         
         .characteristic h4 {
-            color: var(--azul-profundo);
+            color: var(--jade-oscuro);
             margin-bottom: 8px;
             display: flex;
             align-items: center;
@@ -387,15 +387,15 @@
         }
         
         .characteristic i {
-            color: var(--azul-medio);
+            color: var(--turquesa);
         }
         
         .species-info {
-            background: rgba(30, 58, 138, 0.1);
+            background: rgba(0, 168, 107, 0.1);
             padding: 15px;
             border-radius: 15px;
             margin-top: 15px;
-            border-left: 4px solid var(--azul-profundo);
+            border-left: 4px solid var(--jade);
         }
         
         .mobile-nav {
@@ -414,7 +414,7 @@
         
         .nav-btn {
             background: transparent;
-            color: var(--azul-profundo);
+            color: var(--jade);
             border: none;
             padding: 10px;
             border-radius: 50%;
@@ -429,12 +429,12 @@
         }
         
         .nav-btn.active {
-            background: var(--azul-profundo);
+            background: var(--jade);
             color: white;
         }
         
         .nav-btn:hover {
-            background: var(--azul-profundo);
+            background: var(--jade);
             color: white;
             transform: translateY(-3px);
         }
@@ -480,7 +480,7 @@
         }
         
         .notification.info {
-            background: var(--azul-medio);
+            background: var(--jade);
         }
     </style>
 </head>
@@ -524,8 +524,8 @@
         
         <div class="container">
             <header>
-                <h1 id="page-title">Cráneo de Tortuga Baula</h1>
-                <p id="page-subtitle" class="subtitle">Explora en 3D la anatomía única de la tortuga baula (Dermochelys coriacea)</p>
+                <h1 id="page-title">Cráneo de Tortuga Marina Verde</h1>
+                <p id="page-subtitle" class="subtitle">Explora en 3D la anatomía única de la tortuga marina verde (Chelonia mydas)</p>
             </header>
             
             <div class="model-container">
@@ -534,7 +534,7 @@
                     <p id="loading-text">Cargando modelo 3D...</p>
                 </div>
                 <div class="sketchfab-embed-wrapper">
-                    <iframe title="Leatherback Sea Turtle Skull" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/bf18f1c673544dfca69c05949a2efbb0/embed" id="model-iframe" class="hidden"></iframe>
+                    <iframe title="Green Sea Turtle skull" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/45b1931722c445388fdeccf6489d958d/embed" id="model-iframe" class="hidden"></iframe>
                 </div>
                 <div class="controls">
                     <button onclick="showInstructions()">
@@ -552,25 +552,25 @@
             <div id="anatomy-section" class="section active">
                 <div class="info-container">
                     <h2><i class="fas fa-bone"></i> <span id="anatomy-title">Características Anatómicas</span></h2>
-                    <p id="anatomy-desc">El cráneo de la tortuga baula muestra adaptaciones especializadas para su dieta de medusas y vida en aguas profundas.</p>
+                    <p id="anatomy-desc">El cráneo de la tortuga marina verde muestra adaptaciones especializadas para su dieta herbívora y vida acuática.</p>
                     
                     <h3 id="adaptations-title">Adaptaciones Principales</h3>
                     <div class="characteristics">
                         <div class="characteristic">
-                            <h4><i class="fas fa-teeth"></i> <span class="feature-title">Estructura de Alimentación</span></h4>
-                            <p class="feature-desc">Posee estructuras en forma de cuchara y papilas esofágicas para capturar y tragar medusas.</p>
+                            <h4><i class="fas fa-teeth"></i> <span class="feature-title">Pico Sin Dientes</span></h4>
+                            <p class="feature-desc">Poseen picos queratinizados y afilados con bordes serrados para cortar vegetación marina.</p>
                         </div>
                         <div class="characteristic">
-                            <h4><i class="fas fa-eye"></i> <span class="feature-title">Visión Adaptada</span></h4>
-                            <p class="feature-desc">Grandes órbitas oculares adaptadas para la visión en aguas profundas y con poca luz.</p>
+                            <h4><i class="fas fa-eye"></i> <span class="feature-title">Grandes Cuencas Oculares</span></h4>
+                            <p class="feature-desc">Orbitas oculares grandes que permiten una visión óptima en ambientes submarinos.</p>
                         </div>
                         <div class="characteristic">
-                            <h4><i class="fas fa-grip-lines"></i> <span class="feature-title">Mandíbula Especializada</span></h4>
-                            <p class="feature-desc">Estructura mandibular adaptada para una dieta blanda de medusas y otros organismos gelatinosos.</p>
+                            <h4><i class="fas fa-grip-lines"></i> <span class="feature-title">Mandíbula Poderosa</span></h4>
+                            <p class="feature-desc">Estructura mandibular robusta para masticar vegetación marina fibrosa.</p>
                         </div>
                         <div class="characteristic">
-                            <h4><i class="fas fa-water"></i> <span class="feature-title">Adaptaciones para Buceo</span></h4>
-                            <p class="feature-desc">Características craneales que facilitan el buceo a grandes profundidades (hasta 1,280 metros).</p>
+                            <h4><i class="fas fa-feather-alt"></i> <span class="feature-title">Cráneo Ligero</span></h4>
+                            <p class="feature-desc">Diseño con aberturas temporales que reducen el peso sin comprometer la resistencia.</p>
                         </div>
                     </div>
                 </div>
@@ -580,25 +580,25 @@
                 <div class="info-container">
                     <h2><i class="fas fa-fish"></i> <span id="species-title">Información de la Especie</span></h2>
                     <div class="species-info">
-                        <p id="species-desc">La <strong>tortuga baula (<em>Dermochelys coriacea</em>)</strong> es la especie de tortuga marina más grande del mundo y la única representante viviente de la familia Dermochelyidae.</p>
+                        <p id="species-desc">La <strong>tortuga marina verde (<em>Chelonia mydas</em>)</strong> es una especie en peligro de extinción que se encuentra en aguas tropicales y subtropicales de todo el mundo.</p>
                         
                         <h3 id="species-features">Características principales:</h3>
                         <ul id="species-list" style="margin-left: 20px; margin-top: 10px;">
-                            <li>Es la tortuga marina más grande, puede alcanzar 2.7 metros de longitud</li>
-                            <li>Puede pesar hasta 900 kg</li>
-                            <li>No tiene caparazón óseo, sino una cubierta de piel y cartílago</li>
-                            <li>Se alimenta principalmente de medusas y otros organismos gelatinosos</li>
-                            <li>Puede sumergirse a profundidades de más de 1,000 metros</li>
+                            <li>Se alimenta principalmente de algas y pastos marinos</li>
+                            <li>Su nombre proviene del color verdoso de su grasa</li>
+                            <li>Puede alcanzar hasta 1.5 metros de longitud</li>
+                            <li>Pesa normalmente entre 65-130 kg</li>
+                            <li>Realiza migraciones largas entre áreas de alimentación y anidación</li>
                         </ul>
                         
                         <h3 id="conservation-title">Estado de conservación:</h3>
-                        <p><i class="fas fa-exclamation-triangle" style="color: #ff6b6b;"></i> <span id="conservation-status">Vulnerable (UICN)</span></p>
+                        <p><i class="fas fa-exclamation-triangle" style="color: #ff6b6b;"></i> <span id="conservation-status">En peligro de extinción (UICN)</span></p>
                     </div>
                 </div>
             </div>
             
             <footer>
-                <p id="footer-text">Modelo 3D proporcionado por MorphoSource a través de Sketchfab</p>
+                <p id="footer-text">Modelo 3D proporcionado por UQ School of the Environment a través de Sketchfab</p>
                 <p class="credits">Página creada para visualización educativa de anatomía animal</p>
             </footer>
         </div>
@@ -617,155 +617,159 @@
     </div>
 
     <footer>
-        <p>Visualizador 3D Educativo - Tortuga Baula</p>
+        <p>Visualizador 3D Educativo - Tortuga Marina Verde</p>
     </footer>
 
     <script>
         // Textos en diferentes idiomas
         const translations = {
             es: {
-                title: "Cráneo de Tortuga Baula",
-                subtitle: "Explora en 3D la anatomía única de la tortuga baula (Dermochelys coriacea)",
+                title: "Cráneo de Tortuga Marina Verde",
+                subtitle: "Explora en 3D la anatomía única de la tortuga marina verde (Chelonia mydas)",
                 continueText: "Continuar",
                 instructionsBtn: "Instrucciones",
                 rotateBtn: "Rotar",
                 fullscreenBtn: "Pantalla completa",
                 anatomyTitle: "Características Anatómicas",
-                anatomyDesc: "El cráneo de la tortuga baula muestra adaptaciones especializadas para su dieta de medusas y vida en aguas profundas.",
+                anatomyDesc: "El cráneo de la tortuga marina verde muestra adaptaciones especializadas para su dieta herbívora y vida acuática.",
                 adaptationsTitle: "Adaptaciones Principales",
                 features: [
-                    { title: "Estructura de Alimentación", desc: "Posee estructuras en forma de cuchara y papilas esofágicas para capturar y tragar medusas." },
-                    { title: "Visión Adaptada", desc: "Grandes órbitas oculares adaptadas para la visión en aguas profundas y con poca luz." },
-                    { title: "Mandíbula Especializada", desc: "Estructura mandibular adaptada para una dieta blanda de medusas y otros organismos gelatinosos." },
-                    { title: "Adaptaciones para Buceo", desc: "Características craneales que facilitan el buceo a grandes profundidades (hasta 1,280 metros)." }
+                    { title: "Pico Sin Dientes", desc: "Poseen picos queratinizados y afilados con bordes serrados para cortar vegetación marina." },
+                    { title: "Grandes Cuencas Oculares", desc: "Orbitas oculares grandes que permiten una visión óptima en ambientes submarinos." },
+                    { title: "Mandíbula Poderosa", desc: "Estructura mandibular robusta para masticar vegetación marina fibrosa." },
+                    { title: "Cráneo Ligero", desc: "Diseño con aberturas temporales que reducen el peso sin comprometer la resistencia." }
                 ],
                 speciesTitle: "Información de la Especie",
-                speciesDesc: "La <strong>tortuga baula (<em>Dermochelys coriacea</em>)</strong> es la especie de tortuga marina más grande del mundo y la única representante viviente de la familia Dermochelyidae.",
+                speciesDesc: "La <strong>tortuga marina verde (<em>Chelonia mydas</em>)</strong> es una especie en peligro de extinción que se encuentra en aguas tropicales y subtropicales de todo el mundo.",
                 speciesFeatures: "Características principales:",
                 speciesList: [
-                    "Es la tortuga marina más grande, puede alcanzar 2.7 metros de longitud",
-                    "Puede pesar hasta 900 kg",
-                    "No tiene caparazón óseo, sino una cubierta de piel y cartílago",
-                    "Se alimenta principalmente de medusas y otros organismos gelatinosos",
-                    "Puede sumergirse a profundidades de más de 1,000 metros"
+                    "Se alimenta principalmente de algas y pastos marinos",
+                    "Su nombre proviene del color verdoso de su grasa",
+                    "Puede alcanzar hasta 1.5 metros de longitud",
+                    "Pesa normalmente entre 65-130 kg",
+                    "Realiza migraciones largas entre áreas de alimentación y anidación"
                 ],
                 conservationTitle: "Estado de conservación:",
-                conservationStatus: "Vulnerable (UICN)",
-                footerText: "Modelo 3D proporcionado por MorphoSource a través de Sketchfab",
+                conservationStatus: "En peligro de extinción (UICN)",
+                footerText: "Modelo 3D proporcionado por UQ School of the Environment a través de Sketchfab",
                 loadingText: "Cargando modelo 3D...",
                 instructions: "💡 INSTRUCCIONES:\n\n• Haz clic y arrastra para rotar el modelo 3D\n• Usa la rueda del mouse para hacer zoom\n• Mantén Shift + arrastra para mover el modelo\n• Usa los botones inferiores para navegar entre secciones\n• Selecciona diferentes idiomas desde el menú principal",
                 rotateMessage: "🔄 El modelo está rotando automáticamente. Puedes seguir interactuando con él usando el mouse.",
                 fullscreenMessage: "🔲 Modo pantalla completa activado. Presiona ESC para salir.",
                 errorMessage: "❌ Ha ocurrido un error. Por favor, recarga la página.",
-                modelLoadError: "❌ Error al cargar el modelo 3D. Verifica tu conexión a internet."
+                modelLoadError: "❌ Error al cargar el modelo 3D. Verifica tu conexión a internet.",
+                welcomeMessage: "¡Bienvenido! Explora el cráneo de la tortuga marina verde en 3D."
             },
             en: {
-                title: "Leatherback Sea Turtle Skull",
-                subtitle: "Explore in 3D the unique anatomy of the leatherback sea turtle (Dermochelys coriacea)",
+                title: "Green Sea Turtle Skull",
+                subtitle: "Explore in 3D the unique anatomy of the green sea turtle (Chelonia mydas)",
                 continueText: "Continue",
                 instructionsBtn: "Instructions",
                 rotateBtn: "Rotate",
                 fullscreenBtn: "Fullscreen",
                 anatomyTitle: "Anatomical Features",
-                anatomyDesc: "The leatherback sea turtle skull shows specialized adaptations for its jellyfish diet and deep-water life.",
+                anatomyDesc: "The green sea turtle skull shows specialized adaptations for its herbivorous diet and aquatic life.",
                 adaptationsTitle: "Main Adaptations",
                 features: [
-                    { title: "Feeding Structure", desc: "Has spoon-shaped structures and esophageal papillae for capturing and swallowing jellyfish." },
-                    { title: "Adapted Vision", desc: "Large eye orbits adapted for vision in deep waters and low light conditions." },
-                    { title: "Specialized Jaw", desc: "Mandibular structure adapted for a soft diet of jellyfish and other gelatinous organisms." },
-                    { title: "Diving Adaptations", desc: "Cranial features that facilitate diving to great depths (up to 1,280 meters)." }
+                    { title: "Toothless Beak", desc: "They have sharp, keratinized beaks with serrated edges for cutting marine vegetation." },
+                    { title: "Large Eye Sockets", desc: "Large eye orbits that allow optimal vision in underwater environments." },
+                    { title: "Powerful Jaw", desc: "Robust mandibular structure for chewing fibrous marine vegetation." },
+                    { title: "Lightweight Skull", desc: "Design with temporal openings that reduce weight without compromising strength." }
                 ],
                 speciesTitle: "Species Information",
-                speciesDesc: "The <strong>leatherback sea turtle (<em>Dermochelys coriacea</em>)</strong> is the largest sea turtle species in the world and the only living representative of the Dermochelyidae family.",
+                speciesDesc: "The <strong>green sea turtle (<em>Chelonia mydas</em>)</strong> is an endangered species found in tropical and subtropical waters worldwide.",
                 speciesFeatures: "Main characteristics:",
                 speciesList: [
-                    "It is the largest sea turtle, can reach 2.7 meters in length",
-                    "Can weigh up to 900 kg",
-                    "Does not have a bony shell, but a covering of skin and cartilage",
-                    "Feeds mainly on jellyfish and other gelatinous organisms",
-                    "Can dive to depths of more than 1,000 meters"
+                    "Feeds mainly on algae and seagrass",
+                    "Its name comes from the greenish color of its fat",
+                    "Can reach up to 1.5 meters in length",
+                    "Normally weighs between 65-130 kg",
+                    "Performs long migrations between feeding and nesting areas"
                 ],
                 conservationTitle: "Conservation status:",
-                conservationStatus: "Vulnerable (IUCN)",
-                footerText: "3D model provided by MorphoSource via Sketchfab",
+                conservationStatus: "Endangered (IUCN)",
+                footerText: "3D model provided by UQ School of the Environment via Sketchfab",
                 loadingText: "Loading 3D model...",
                 instructions: "💡 INSTRUCTIONS:\n\n• Click and drag to rotate the 3D model\n• Use mouse wheel to zoom\n• Hold Shift + drag to move the model\n• Use bottom buttons to navigate between sections\n• Select different languages from the main menu",
                 rotateMessage: "🔄 The model is now rotating automatically. You can still interact with it using your mouse.",
                 fullscreenMessage: "🔲 Fullscreen mode activated. Press ESC to exit.",
                 errorMessage: "❌ An error has occurred. Please reload the page.",
-                modelLoadError: "❌ Error loading the 3D model. Check your internet connection."
+                modelLoadError: "❌ Error loading the 3D model. Check your internet connection.",
+                welcomeMessage: "Welcome! Explore the green sea turtle skull in 3D."
             },
             fr: {
-                title: "Crâne de Tortue Luth",
-                subtitle: "Explorez en 3D l'anatomie unique de la tortue luth (Dermochelys coriacea)",
+                title: "Crâne de Tortue Marine Verte",
+                subtitle: "Explorez en 3D l'anatomie unique de la tortue verte (Chelonia mydas)",
                 continueText: "Continuer",
                 instructionsBtn: "Instructions",
                 rotateBtn: "Tourner",
                 fullscreenBtn: "Plein écran",
                 anatomyTitle: "Caractéristiques Anatomiques",
-                anatomyDesc: "Le crâne de la tortue luth montre des adaptations spécialisées pour son régime de méduses et sa vie en eaux profondes.",
+                anatomyDesc: "Le crâne de la tortue marine verte montre des adaptations spécialisées pour son régime herbivore et sa vie aquatique.",
                 adaptationsTitle: "Adaptations Principales",
                 features: [
-                    { title: "Structure d'Alimentation", desc: "Possède des structures en forme de cuillère et des papilles œsophagiennes pour capturer et avaler des méduses." },
-                    { title: "Vision Adaptée", desc: "Grandes orbites oculaires adaptées pour la vision en eaux profondes et en faible luminosité." },
-                    { title: "Mâchoire Spécialisée", desc: "Structure mandibulaire adaptée pour un régime mou de méduses et d'autres organismes gélatineux." },
-                    { title: "Adaptations à la Plongée", desc: "Caractéristiques crâniennes qui facilitent la plongée à de grandes profondeurs (jusqu'à 1 280 mètres)." }
+                    { title: "Bec Sans Dents", desc: "Elles possèdent des becs kératinisés et tranchants avec des bords dentelés pour couper la végétation marine." },
+                    { title: "Grandes Orbites Oculaires", desc: "De grandes orbites oculaires permettant une vision optimale dans les environnements sous-marins." },
+                    { title: "Mâchoire Puissante", desc: "Structure mandibulaire robuste pour mâcher la végétation marine fibreuse." },
+                    { title: "Crâne Léger", desc: "Conception avec des ouvertures temporales qui réduisent le poids sans compromettre la résistance." }
                 ],
                 speciesTitle: "Informations sur l'Espèce",
-                speciesDesc: "La <strong>tortue luth (<em>Dermochelys coriacea</em>)</strong> est la plus grande espèce de tortue marine au monde et le seul représentant vivant de la famille des Dermochelyidae.",
+                speciesDesc: "La <strong>tortue verte (<em>Chelonia mydas</em>)</strong> est une espèce en danger que l'on trouve dans les eaux tropicales et subtropicales du monde entier.",
                 speciesFeatures: "Caractéristiques principales:",
                 speciesList: [
-                    "C'est la plus grande tortue marine, peut atteindre 2,7 mètres de longueur",
-                    "Peut peser jusqu'à 900 kg",
-                    "N'a pas de carapace osseuse, mais une couverture de peau et de cartilage",
-                    "Se nourrit principalement de méduses et d'autres organismes gélatineux",
-                    "Peut plonger à des profondeurs de plus de 1 000 mètres"
+                    "Se nourrit principalement d'algues et d'herbes marines",
+                    "Son nom vient de la couleur verdâtre de sa graisse",
+                    "Peut atteindre jusqu'à 1,5 mètre de longueur",
+                    "Pèse normalement entre 65 et 130 kg",
+                    "Effectue de longues migrations entre les zones d'alimentation et de nidification"
                 ],
                 conservationTitle: "Statut de conservation:",
-                conservationStatus: "Vulnérable (UICN)",
-                footerText: "Modèle 3D fourni par MorphoSource via Sketchfab",
+                conservationStatus: "En danger (UICN)",
+                footerText: "Modèle 3D fourni par UQ School of the Environment via Sketchfab",
                 loadingText: "Chargement du modèle 3D...",
                 instructions: "💡 INSTRUCTIONS:\n\n• Cliquez et glissez pour faire pivoter le modèle 3D\n• Utilisez la molette de la souris pour zoomer\n• Maintenez Maj + glisser pour déplacer le modèle\n• Utilisez les boutons du bas pour naviguer entre les sections\n• Sélectionnez différentes langues depuis le menu principal",
                 rotateMessage: "🔄 Le modèle tourne maintenant automatiquement. Vous pouvez toujours interagir avec lui à l'aide de votre souris.",
                 fullscreenMessage: "🔲 Mode plein écran activé. Appuyez sur ESC pour quitter.",
                 errorMessage: "❌ Une erreur s'est produite. Veuillez recharger la page.",
-                modelLoadError: "❌ Erreur lors du chargement du modèle 3D. Vérifiez votre connexion Internet."
+                modelLoadError: "❌ Erreur lors du chargement du modèle 3D. Vérifiez votre connexion Internet.",
+                welcomeMessage: "Bienvenue ! Explorez le crâne de la tortue marine verte en 3D."
             },
             de: {
-                title: "Schädel der Lederschildkröte",
-                subtitle: "Erkunden Sie in 3D die einzigartige Anatomie der Lederschildkröte (Dermochelys coriacea)",
+                title: "Schädel der Grünen Meeresschildkröte",
+                subtitle: "Erkunden Sie in 3D die einzigartige Anatomie der Grünen Meeresschildkröte (Chelonia mydas)",
                 continueText: "Weiter",
                 instructionsBtn: "Anweisungen",
                 rotateBtn: "Drehen",
                 fullscreenBtn: "Vollbild",
                 anatomyTitle: "Anatomische Merkmale",
-                anatomyDesc: "Der Schädel der Lederschildkröte zeigt spezialisierte Anpassungen für ihre Quallennahrung und das Leben in tiefen Gewässern.",
+                anatomyDesc: "Der Schädel der Grünen Meeresschildkröte zeigt spezialisierte Anpassungen für ihre pflanzenfressende Ernährung und das Leben im Wasser.",
                 adaptationsTitle: "Hauptanpassungen",
                 features: [
-                    { title: "Fütterungsstruktur", desc: "Besitzt löffelförmige Strukturen und Speiseröhrenpapillen zum Einfangen und Schlucken von Quallen." },
-                    { title: "Angepasstes Sehvermögen", desc: "Große Augenhöhlen, die für das Sehen in tiefen Gewässern und bei schlechten Lichtverhältnissen angepasst sind." },
-                    { title: "Spezialisierter Kiefer", desc: "Kieferstruktur, die für eine weiche Ernährung mit Quallen und anderen gallertartigen Organismen angepasst ist." },
-                    { title: "Tauchanpassungen", desc: "Schädelmerkmale, die das Tauchen in große Tiefen (bis zu 1.280 Meter) erleichtern." }
+                    { title: "Zahnloser Schnabel", desc: "Sie haben scharfe, verhornte Schnäbel mit gezackten Kanten zum Schneiden von Meeresvegetation." },
+                    { title: "Große Augenhöhlen", desc: "Große Augenhöhlen, die eine optimale Sicht in Unterwasserumgebungen ermöglichen." },
+                    { title: "Kräftiger Kiefer", desc: "Robuste Kieferstruktur zum Kauen von faseriger Meeresvegetation." },
+                    { title: "Leichter Schädel", desc: "Design mit temporalen Öffnungen, die das Gewicht reduzieren, ohne die Festigkeit zu beeinträchtigen." }
                 ],
                 speciesTitle: "Artinformation",
-                speciesDesc: "Die <strong>Lederschildkröte (<em>Dermochelys coriacea</em>)</strong> ist die größte Meeresschildkrötenart der Welt und der einzige lebende Vertreter der Familie Dermochelyidae.",
+                speciesDesc: "Die <strong>Grüne Meeresschildkröte (<em>Chelonia mydas</em>)</strong> ist eine gefährdete Art, die in tropischen und subtropischen Gewässern weltweit vorkommt.",
                 speciesFeatures: "Hauptmerkmale:",
                 speciesList: [
-                    "Sie ist die größte Meeresschildkröte und kann 2,7 Meter lang werden",
-                    "Kann bis zu 900 kg wiegen",
-                    "Hat keinen knöchernen Panzer, sondern eine Bedeckung aus Haut und Knorpel",
-                    "Ernährt sich hauptsächlich von Quallen und anderen gallertartigen Organismen",
-                    "Kann in Tiefen von mehr als 1.000 Metern tauchen"
+                    "Ernährt sich hauptsächlich von Algen und Seegras",
+                    "Ihr Name stammt von der grünlichen Farbe ihres Fettes",
+                    "Kann bis zu 1,5 Meter lang werden",
+                    "Wiegt normalerweise zwischen 65-130 kg",
+                    "Führt lange Wanderungen zwischen Futter- und Nistgebieten durch"
                 ],
                 conservationTitle: "Erhaltungsstatus:",
                 conservationStatus: "Gefährdet (IUCN)",
-                footerText: "3D-Modell bereitgestellt von MorphoSource über Sketchfab",
+                footerText: "3D-Modell bereitgestellt von UQ School of the Environment über Sketchfab",
                 loadingText: "Lade 3D-Modell...",
                 instructions: "💡 ANWEISUNGEN:\n\n• Klicken und ziehen, um das 3D-Modell zu drehen\n• Mausrad zum Zoomen verwenden\n• Umschalt + Ziehen gedrückt halten, um das Modell zu bewegen\n• Untere Buttons verwenden, um zwischen Abschnitten zu navigieren\n• Wählen Sie verschiedene Sprachen aus dem Hauptmenü",
                 rotateMessage: "🔄 Das Modell dreht sich jetzt automatisch. Sie können weiterhin mit der Maus damit interagieren.",
                 fullscreenMessage: "🔲 Vollbildmodus aktiviert. Drücken Sie ESC, um zu beenden.",
                 errorMessage: "❌ Ein Fehler ist aufgetreten. Bitte laden Sie die Seite neu.",
-                modelLoadError: "❌ Fehler beim Laden des 3D-Modells. Überprüfen Sie Ihre Internetverbindung."
+                modelLoadError: "❌ Fehler beim Laden des 3D-Modells. Überprüfen Sie Ihre Internetverbindung.",
+                welcomeMessage: "Willkommen! Erkunden Sie den Schädel der Grünen Meeresschildkröte in 3D."
             }
         };
 
@@ -991,8 +995,8 @@
                     contentPage.classList.remove('hidden');
                     contentPage.classList.add('visible');
                     
-                    // Mostrar notificación de éxito
-                    showNotification('¡Bienvenido!', 'success');
+                    // Mostrar notificación de bienvenida
+                    showNotification(translations[currentLanguage].welcomeMessage, 'success');
                 }
             } catch (error) {
                 handleError(error, 'showContentPage');
