@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualizador 3D - Cráneo de Tortuga Marina</title>
+    <title>Museum STC - Cráneo de Tortuga Marina 3D</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -21,8 +21,6 @@
             --blanco: #FFFFFF;
             --gris-claro: #F5F5F5;
             --texto-oscuro: #1A3C34;
-            --error: #DC2626;
-            --exito: #059669;
         }
         
         body {
@@ -35,10 +33,9 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
-            transition: background 0.5s ease;
         }
         
-        .language-container, .content-page {
+        .language-container {
             max-width: 500px;
             width: 100%;
             background: rgba(255, 255, 255, 0.95);
@@ -48,24 +45,6 @@
             text-align: center;
             position: relative;
             overflow: hidden;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-        
-        .content-page {
-            max-width: 800px;
-            display: none;
-        }
-        
-        .language-container.hidden, .content-page.hidden {
-            opacity: 0;
-            transform: translateY(20px);
-            pointer-events: none;
-        }
-        
-        .language-container.visible, .content-page.visible {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: all;
         }
         
         .language-container::before {
@@ -192,6 +171,16 @@
             opacity: 0.8;
         }
         
+        .content-page {
+            display: none;
+            width: 100%;
+        }
+        
+        /* CORRECCIÓN APLICADA: Asegurar que se muestre cuando está activo */
+        .content-page.active {
+            display: block;
+        }
+        
         .back-btn {
             position: fixed;
             top: 20px;
@@ -253,37 +242,6 @@
             margin-bottom: 20px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            position: relative;
-        }
-        
-        .loading-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.9);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-            border-radius: 15px;
-        }
-        
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid var(--gris-claro);
-            border-top: 5px solid var(--jade);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 15px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
         
         .model-container iframe {
@@ -292,11 +250,6 @@
             border: none;
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: opacity 0.3s ease;
-        }
-        
-        .model-container iframe.hidden {
-            opacity: 0;
         }
         
         .controls {
@@ -441,55 +394,25 @@
         
         .section {
             display: none;
-            animation: fadeIn 0.5s ease forwards;
         }
         
         .section.active {
             display: block;
         }
         
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 20px;
-            border-radius: 10px;
-            color: white;
-            font-weight: 600;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            transform: translateX(150%);
-            transition: transform 0.3s ease;
-        }
-        
-        .notification.show {
-            transform: translateX(0);
-        }
-        
-        .notification.error {
-            background: var(--error);
-        }
-        
-        .notification.success {
-            background: var(--exito);
-        }
-        
-        .notification.info {
-            background: var(--jade);
-        }
     </style>
 </head>
 <body>
-    <!-- Notificación para mensajes al usuario -->
-    <div id="notification" class="notification"></div>
-    
     <!-- Página de selección de idioma -->
-    <div id="language-page" class="language-container visible">
+    <div id="language-page" class="language-container">
         <div class="turtle-icon">
             <i class="fas fa-turtle"></i>
         </div>
@@ -512,29 +435,25 @@
         </div>
         
         <button id="continue-btn" class="continue-btn" disabled>
-            <i class="fas fa-arrow-right"></i> <span id="continue-text">Continuar</span>
+            <i class="fas fa-arrow-right"></i> Continuar
         </button>
     </div>
     
     <!-- Página de contenido (inicialmente oculta) -->
-    <div id="content-page" class="content-page hidden">
+    <div id="content-page" class="content-page">
         <button class="back-btn" onclick="goBackToLanguageSelection()">
             <i class="fas fa-arrow-left"></i>
         </button>
         
         <div class="container">
-            <header>
+            <header class="fade-in">
                 <h1 id="page-title">Cráneo de Tortuga Marina Verde</h1>
                 <p id="page-subtitle" class="subtitle">Explora en 3D la anatomía única de la tortuga marina verde (Chelonia mydas)</p>
             </header>
             
-            <div class="model-container">
-                <div class="loading-overlay" id="model-loading">
-                    <div class="spinner"></div>
-                    <p id="loading-text">Cargando modelo 3D...</p>
-                </div>
+            <div class="model-container fade-in">
                 <div class="sketchfab-embed-wrapper">
-                    <iframe title="Green Sea Turtle skull" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/45b1931722c445388fdeccf6489d958d/embed" id="model-iframe" class="hidden"></iframe>
+                    <iframe title="Green Sea Turtle skull" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/45b1931722c445388fdeccf6489d958d/embed"></iframe>
                 </div>
                 <div class="controls">
                     <button onclick="showInstructions()">
@@ -543,13 +462,10 @@
                     <button onclick="rotateModel()">
                         <i class="fas fa-sync-alt"></i> <span id="rotate-btn">Rotar</span>
                     </button>
-                    <button onclick="toggleFullscreen()">
-                        <i class="fas fa-expand"></i> <span id="fullscreen-btn">Pantalla completa</span>
-                    </button>
                 </div>
             </div>
             
-            <div id="anatomy-section" class="section active">
+            <div id="anatomy-section" class="section active fade-in">
                 <div class="info-container">
                     <h2><i class="fas fa-bone"></i> <span id="anatomy-title">Características Anatómicas</span></h2>
                     <p id="anatomy-desc">El cráneo de la tortuga marina verde muestra adaptaciones especializadas para su dieta herbívora y vida acuática.</p>
@@ -576,7 +492,7 @@
                 </div>
             </div>
             
-            <div id="species-section" class="section">
+            <div id="species-section" class="section fade-in">
                 <div class="info-container">
                     <h2><i class="fas fa-fish"></i> <span id="species-title">Información de la Especie</span></h2>
                     <div class="species-info">
@@ -597,7 +513,7 @@
                 </div>
             </div>
             
-            <footer>
+            <footer class="fade-in">
                 <p id="footer-text">Modelo 3D proporcionado por UQ School of the Environment a través de Sketchfab</p>
                 <p class="credits">Página creada para visualización educativa de anatomía animal</p>
             </footer>
@@ -626,10 +542,8 @@
             es: {
                 title: "Cráneo de Tortuga Marina Verde",
                 subtitle: "Explora en 3D la anatomía única de la tortuga marina verde (Chelonia mydas)",
-                continueText: "Continuar",
                 instructionsBtn: "Instrucciones",
                 rotateBtn: "Rotar",
-                fullscreenBtn: "Pantalla completa",
                 anatomyTitle: "Características Anatómicas",
                 anatomyDesc: "El cráneo de la tortuga marina verde muestra adaptaciones especializadas para su dieta herbívora y vida acuática.",
                 adaptationsTitle: "Adaptaciones Principales",
@@ -652,21 +566,13 @@
                 conservationTitle: "Estado de conservación:",
                 conservationStatus: "En peligro de extinción (UICN)",
                 footerText: "Modelo 3D proporcionado por UQ School of the Environment a través de Sketchfab",
-                loadingText: "Cargando modelo 3D...",
-                instructions: "💡 INSTRUCCIONES:\n\n• Haz clic y arrastra para rotar el modelo 3D\n• Usa la rueda del mouse para hacer zoom\n• Mantén Shift + arrastra para mover el modelo\n• Usa los botones inferiores para navegar entre secciones\n• Selecciona diferentes idiomas desde el menú principal",
-                rotateMessage: "🔄 El modelo está rotando automáticamente. Puedes seguir interactuando con él usando el mouse.",
-                fullscreenMessage: "🔲 Modo pantalla completa activado. Presiona ESC para salir.",
-                errorMessage: "❌ Ha ocurrido un error. Por favor, recarga la página.",
-                modelLoadError: "❌ Error al cargar el modelo 3D. Verifica tu conexión a internet.",
-                welcomeMessage: "¡Bienvenido! Explora el cráneo de la tortuga marina verde en 3D."
+                instructions: "INSTRUCCIONES:\n\n• ROTAR: Desliza el dedo sobre el modelo\n• ZOOM: Pellizca para acercar/alejar\n• NAVEGACIÓN: Usa los botones inferiores para cambiar secciones"
             },
             en: {
                 title: "Green Sea Turtle Skull",
                 subtitle: "Explore in 3D the unique anatomy of the green sea turtle (Chelonia mydas)",
-                continueText: "Continue",
                 instructionsBtn: "Instructions",
                 rotateBtn: "Rotate",
-                fullscreenBtn: "Fullscreen",
                 anatomyTitle: "Anatomical Features",
                 anatomyDesc: "The green sea turtle skull shows specialized adaptations for its herbivorous diet and aquatic life.",
                 adaptationsTitle: "Main Adaptations",
@@ -683,29 +589,21 @@
                     "Feeds mainly on algae and seagrass",
                     "Its name comes from the greenish color of its fat",
                     "Can reach up to 1.5 meters in length",
-                    "Normally weighs between 65-130 kg",
+                    "Typically weighs between 65-130 kg",
                     "Performs long migrations between feeding and nesting areas"
                 ],
                 conservationTitle: "Conservation status:",
                 conservationStatus: "Endangered (IUCN)",
                 footerText: "3D model provided by UQ School of the Environment via Sketchfab",
-                loadingText: "Loading 3D model...",
-                instructions: "💡 INSTRUCTIONS:\n\n• Click and drag to rotate the 3D model\n• Use mouse wheel to zoom\n• Hold Shift + drag to move the model\n• Use bottom buttons to navigate between sections\n• Select different languages from the main menu",
-                rotateMessage: "🔄 The model is now rotating automatically. You can still interact with it using your mouse.",
-                fullscreenMessage: "🔲 Fullscreen mode activated. Press ESC to exit.",
-                errorMessage: "❌ An error has occurred. Please reload the page.",
-                modelLoadError: "❌ Error loading the 3D model. Check your internet connection.",
-                welcomeMessage: "Welcome! Explore the green sea turtle skull in 3D."
+                instructions: "INSTRUCTIONS:\n\n• ROTATE: Swipe your finger over the model\n• ZOOM: Pinch to zoom in/out\n• NAVIGATION: Use the bottom buttons to change sections"
             },
             fr: {
-                title: "Crâne de Tortue Marine Verte",
+                title: "Crâne de Tortue Verte",
                 subtitle: "Explorez en 3D l'anatomie unique de la tortue verte (Chelonia mydas)",
-                continueText: "Continuer",
                 instructionsBtn: "Instructions",
                 rotateBtn: "Tourner",
-                fullscreenBtn: "Plein écran",
                 anatomyTitle: "Caractéristiques Anatomiques",
-                anatomyDesc: "Le crâne de la tortue marine verte montre des adaptations spécialisées pour son régime herbivore et sa vie aquatique.",
+                anatomyDesc: "Le crâne de la tortue verte présente des adaptations spécialisées pour son régime herbivore et sa vie aquatique.",
                 adaptationsTitle: "Adaptations Principales",
                 features: [
                     { title: "Bec Sans Dents", desc: "Elles possèdent des becs kératinisés et tranchants avec des bords dentelés pour couper la végétation marine." },
@@ -726,23 +624,15 @@
                 conservationTitle: "Statut de conservation:",
                 conservationStatus: "En danger (UICN)",
                 footerText: "Modèle 3D fourni par UQ School of the Environment via Sketchfab",
-                loadingText: "Chargement du modèle 3D...",
-                instructions: "💡 INSTRUCTIONS:\n\n• Cliquez et glissez pour faire pivoter le modèle 3D\n• Utilisez la molette de la souris pour zoomer\n• Maintenez Maj + glisser pour déplacer le modèle\n• Utilisez les boutons du bas pour naviguer entre les sections\n• Sélectionnez différentes langues depuis le menu principal",
-                rotateMessage: "🔄 Le modèle tourne maintenant automatiquement. Vous pouvez toujours interagir avec lui à l'aide de votre souris.",
-                fullscreenMessage: "🔲 Mode plein écran activé. Appuyez sur ESC pour quitter.",
-                errorMessage: "❌ Une erreur s'est produite. Veuillez recharger la page.",
-                modelLoadError: "❌ Erreur lors du chargement du modèle 3D. Vérifiez votre connexion Internet.",
-                welcomeMessage: "Bienvenue ! Explorez le crâne de la tortue marine verte en 3D."
+                instructions: "INSTRUCTIONS:\n\n• TOURNER: Faites glisser votre doigt sur le modèle\n• ZOOM: Pincez pour zoomer/dézoomer\n• NAVIGATION: Utilisez les boutons du bas pour changer de sections"
             },
             de: {
                 title: "Schädel der Grünen Meeresschildkröte",
                 subtitle: "Erkunden Sie in 3D die einzigartige Anatomie der Grünen Meeresschildkröte (Chelonia mydas)",
-                continueText: "Weiter",
                 instructionsBtn: "Anweisungen",
                 rotateBtn: "Drehen",
-                fullscreenBtn: "Vollbild",
                 anatomyTitle: "Anatomische Merkmale",
-                anatomyDesc: "Der Schädel der Grünen Meeresschildkröte zeigt spezialisierte Anpassungen für ihre pflanzenfressende Ernährung und das Leben im Wasser.",
+                anatomyDesc: "Der Schädel der Grünen Meeresschildkröte zeigt spezialisierte Anpassungen an ihre pflanzenfressende Ernährung und das Leben im Wasser.",
                 adaptationsTitle: "Hauptanpassungen",
                 features: [
                     { title: "Zahnloser Schnabel", desc: "Sie haben scharfe, verhornte Schnäbel mit gezackten Kanten zum Schneiden von Meeresvegetation." },
@@ -755,7 +645,7 @@
                 speciesFeatures: "Hauptmerkmale:",
                 speciesList: [
                     "Ernährt sich hauptsächlich von Algen und Seegras",
-                    "Ihr Name stammt von der grünlichen Farbe ihres Fettes",
+                    "Ihr Name leitet sich von der grünlichen Farbe ihres Fettes ab",
                     "Kann bis zu 1,5 Meter lang werden",
                     "Wiegt normalerweise zwischen 65-130 kg",
                     "Führt lange Wanderungen zwischen Futter- und Nistgebieten durch"
@@ -763,421 +653,117 @@
                 conservationTitle: "Erhaltungsstatus:",
                 conservationStatus: "Gefährdet (IUCN)",
                 footerText: "3D-Modell bereitgestellt von UQ School of the Environment über Sketchfab",
-                loadingText: "Lade 3D-Modell...",
-                instructions: "💡 ANWEISUNGEN:\n\n• Klicken und ziehen, um das 3D-Modell zu drehen\n• Mausrad zum Zoomen verwenden\n• Umschalt + Ziehen gedrückt halten, um das Modell zu bewegen\n• Untere Buttons verwenden, um zwischen Abschnitten zu navigieren\n• Wählen Sie verschiedene Sprachen aus dem Hauptmenü",
-                rotateMessage: "🔄 Das Modell dreht sich jetzt automatisch. Sie können weiterhin mit der Maus damit interagieren.",
-                fullscreenMessage: "🔲 Vollbildmodus aktiviert. Drücken Sie ESC, um zu beenden.",
-                errorMessage: "❌ Ein Fehler ist aufgetreten. Bitte laden Sie die Seite neu.",
-                modelLoadError: "❌ Fehler beim Laden des 3D-Modells. Überprüfen Sie Ihre Internetverbindung.",
-                welcomeMessage: "Willkommen! Erkunden Sie den Schädel der Grünen Meeresschildkröte in 3D."
+                instructions: "ANWEISUNGEN:\n\n• DREHEN: Wischen Sie mit dem Finger über das Modell\n• ZOOM: Zwei Finger zusammenziehen zum Zoomen\n• NAVIGATION: Verwenden Sie die unteren Schaltflächen, um zwischen Abschnitten zu wechseln"
             }
         };
 
-        // Variables globales
-        let currentLanguage = 'es';
         let selectedLanguage = null;
-        let isModelLoaded = false;
-        let isFullscreen = false;
 
-        // Inicializar la aplicación cuando el DOM esté listo
-        document.addEventListener('DOMContentLoaded', function() {
-            try {
-                initializeApp();
-                setupEventListeners();
-                preloadModel();
-            } catch (error) {
-                handleError(error, 'initializeApp');
-            }
-        });
-
-        // Función para inicializar la aplicación
-        function initializeApp() {
-            // Seleccionar español por defecto
-            selectLanguage('es');
-            
-            // Configurar el manejo de errores global
-            window.addEventListener('error', function(event) {
-                handleError(event.error, 'global');
-            });
-            
-            // Configurar el manejo de promesas rechazadas
-            window.addEventListener('unhandledrejection', function(event) {
-                handleError(event.reason, 'promise');
-            });
-        }
-
-        // Configurar event listeners
-        function setupEventListeners() {
-            // Eventos para botones de idioma
-            const languageButtons = document.querySelectorAll('.language-btn');
-            languageButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    try {
-                        const lang = this.getAttribute('data-lang');
-                        selectLanguage(lang);
-                    } catch (error) {
-                        handleError(error, 'languageSelection');
-                    }
-                });
-            });
-
-            // Evento para botón continuar
-            const continueBtn = document.getElementById('continue-btn');
-            if (continueBtn) {
-                continueBtn.addEventListener('click', function() {
-                    try {
-                        if (selectedLanguage) {
-                            currentLanguage = selectedLanguage;
-                            changeLanguage(currentLanguage);
-                            showContentPage();
-                        }
-                    } catch (error) {
-                        handleError(error, 'continueButton');
-                    }
-                });
-            }
-
-            // Evento para cuando el modelo 3D se carga
-            const modelIframe = document.getElementById('model-iframe');
-            if (modelIframe) {
-                modelIframe.addEventListener('load', function() {
-                    try {
-                        handleModelLoad();
-                    } catch (error) {
-                        handleError(error, 'modelLoad');
-                    }
-                });
-                
-                modelIframe.addEventListener('error', function() {
-                    try {
-                        handleModelError();
-                    } catch (error) {
-                        handleError(error, 'modelError');
-                    }
-                });
-            }
-
-            // Evento para salir de pantalla completa
-            document.addEventListener('fullscreenchange', function() {
-                isFullscreen = !!document.fullscreenElement;
-            });
-        }
-
-        // Pre-cargar el modelo 3D
-        function preloadModel() {
-            try {
-                const modelIframe = document.getElementById('model-iframe');
-                if (modelIframe) {
-                    // Forzar la carga del iframe
-                    modelIframe.src = modelIframe.src;
-                }
-            } catch (error) {
-                handleError(error, 'preloadModel');
-            }
-        }
-
-        // Seleccionar idioma
-        function selectLanguage(lang) {
-            try {
-                // Validar que el idioma existe
-                if (!translations[lang]) {
-                    throw new Error(`Idioma no soportado: ${lang}`);
-                }
-                
-                // Remover selección anterior
+        // Configurar eventos para los botones de idioma
+        document.querySelectorAll('.language-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Quitar la selección anterior
                 document.querySelectorAll('.language-btn').forEach(btn => {
                     btn.classList.remove('selected');
                 });
                 
-                // Seleccionar nuevo idioma
-                const selectedButton = document.querySelector(`.language-btn[data-lang="${lang}"]`);
-                if (selectedButton) {
-                    selectedButton.classList.add('selected');
-                    selectedLanguage = lang;
-                    
-                    // Habilitar botón continuar
-                    const continueBtn = document.getElementById('continue-btn');
-                    if (continueBtn) {
-                        continueBtn.disabled = false;
-                    }
-                    
-                    // Actualizar texto del botón continuar
-                    const continueText = document.getElementById('continue-text');
-                    if (continueText && translations[lang].continueText) {
-                        continueText.textContent = translations[lang].continueText;
-                    }
-                }
-            } catch (error) {
-                handleError(error, 'selectLanguage');
+                // Seleccionar el nuevo idioma
+                this.classList.add('selected');
+                selectedLanguage = this.getAttribute('data-lang');
+                
+                // Habilitar el botón de continuar
+                document.getElementById('continue-btn').disabled = false;
+            });
+        });
+
+        // Evento para el botón de continuar
+        document.getElementById('continue-btn').addEventListener('click', function() {
+            if (selectedLanguage) {
+                console.log('Continuando con idioma:', selectedLanguage);
+                
+                // Ocultar página de idiomas
+                document.getElementById('language-page').style.display = 'none';
+                
+                // Mostrar página de contenido - CORRECCIÓN APLICADA
+                document.getElementById('content-page').style.display = 'block';
+                
+                // Aplicar traducciones
+                applyTranslations(selectedLanguage);
+            } else {
+                alert('Por favor, selecciona un idioma primero.');
             }
+        });
+
+        // Función para aplicar las traducciones
+        function applyTranslations(lang) {
+            const t = translations[lang];
+            
+            // Aplicar textos a los elementos
+            document.getElementById('page-title').textContent = t.title;
+            document.getElementById('page-subtitle').textContent = t.subtitle;
+            document.getElementById('instructions-btn').textContent = t.instructionsBtn;
+            document.getElementById('rotate-btn').textContent = t.rotateBtn;
+            document.getElementById('anatomy-title').textContent = t.anatomyTitle;
+            document.getElementById('anatomy-desc').textContent = t.anatomyDesc;
+            document.getElementById('adaptations-title').textContent = t.adaptationsTitle;
+            document.getElementById('species-title').textContent = t.speciesTitle;
+            document.getElementById('species-desc').innerHTML = t.speciesDesc;
+            document.getElementById('species-features').textContent = t.speciesFeatures;
+            document.getElementById('conservation-title').textContent = t.conservationTitle;
+            document.getElementById('conservation-status').textContent = t.conservationStatus;
+            document.getElementById('footer-text').textContent = t.footerText;
+            
+            // Aplicar características
+            const featureTitles = document.querySelectorAll('.feature-title');
+            const featureDescs = document.querySelectorAll('.feature-desc');
+            t.features.forEach((feature, index) => {
+                if (featureTitles[index]) featureTitles[index].textContent = feature.title;
+                if (featureDescs[index]) featureDescs[index].textContent = feature.desc;
+            });
+            
+            // Aplicar lista de especies
+            const speciesListItems = document.getElementById('species-list').querySelectorAll('li');
+            t.speciesList.forEach((item, index) => {
+                if (speciesListItems[index]) speciesListItems[index].textContent = item;
+            });
         }
 
-        // Cambiar idioma de toda la aplicación
-        function changeLanguage(lang) {
-            try {
-                const trans = translations[lang];
-                
-                if (!trans) {
-                    throw new Error(`No se encontraron traducciones para: ${lang}`);
-                }
-
-                // Actualizar textos principales
-                updateElementText('page-title', trans.title);
-                updateElementText('page-subtitle', trans.subtitle);
-                updateElementText('continue-text', trans.continueText);
-                updateElementText('instructions-btn', trans.instructionsBtn);
-                updateElementText('rotate-btn', trans.rotateBtn);
-                updateElementText('fullscreen-btn', trans.fullscreenBtn);
-                updateElementText('anatomy-title', trans.anatomyTitle);
-                updateElementText('anatomy-desc', trans.anatomyDesc);
-                updateElementText('adaptations-title', trans.adaptationsTitle);
-                updateElementText('species-title', trans.speciesTitle);
-                updateElementText('species-features', trans.speciesFeatures);
-                updateElementText('conservation-title', trans.conservationTitle);
-                updateElementText('conservation-status', trans.conservationStatus);
-                updateElementText('footer-text', trans.footerText);
-                updateElementText('loading-text', trans.loadingText);
-
-                // Actualizar descripción de especie (HTML)
-                const speciesDesc = document.getElementById('species-desc');
-                if (speciesDesc) {
-                    speciesDesc.innerHTML = trans.speciesDesc;
-                }
-
-                // Actualizar características
-                const featureTitles = document.querySelectorAll('.feature-title');
-                const featureDescs = document.querySelectorAll('.feature-desc');
-                
-                trans.features.forEach((feature, index) => {
-                    if (featureTitles[index]) {
-                        featureTitles[index].textContent = feature.title;
-                    }
-                    if (featureDescs[index]) {
-                        featureDescs[index].textContent = feature.desc;
-                    }
-                });
-
-                // Actualizar lista de especies
-                const speciesList = document.getElementById('species-list');
-                if (speciesList) {
-                    speciesList.innerHTML = '';
-                    trans.speciesList.forEach(item => {
-                        const li = document.createElement('li');
-                        li.textContent = item;
-                        speciesList.appendChild(li);
-                    });
-                }
-                
-                currentLanguage = lang;
-            } catch (error) {
-                handleError(error, 'changeLanguage');
-            }
-        }
-
-        // Función auxiliar para actualizar texto de elementos
-        function updateElementText(elementId, text) {
-            const element = document.getElementById(elementId);
-            if (element && text) {
-                element.textContent = text;
-            }
-        }
-
-        // Mostrar página de contenido
-        function showContentPage() {
-            try {
-                const languagePage = document.getElementById('language-page');
-                const contentPage = document.getElementById('content-page');
-                
-                if (languagePage && contentPage) {
-                    languagePage.classList.remove('visible');
-                    languagePage.classList.add('hidden');
-                    
-                    contentPage.classList.remove('hidden');
-                    contentPage.classList.add('visible');
-                    
-                    // Mostrar notificación de bienvenida
-                    showNotification(translations[currentLanguage].welcomeMessage, 'success');
-                }
-            } catch (error) {
-                handleError(error, 'showContentPage');
-            }
-        }
-
-        // Volver a selección de idioma
+        // Función para volver a la selección de idioma
         function goBackToLanguageSelection() {
-            try {
-                const languagePage = document.getElementById('language-page');
-                const contentPage = document.getElementById('content-page');
-                
-                if (languagePage && contentPage) {
-                    contentPage.classList.remove('visible');
-                    contentPage.classList.add('hidden');
-                    
-                    languagePage.classList.remove('hidden');
-                    languagePage.classList.add('visible');
-                }
-            } catch (error) {
-                handleError(error, 'goBackToLanguageSelection');
-            }
+            document.getElementById('content-page').style.display = 'none';
+            document.getElementById('language-page').style.display = 'block';
         }
 
-        // Mostrar sección específica
+        // Funciones para la página de contenido
         function showSection(sectionId, button) {
-            try {
-                // Ocultar todas las secciones
-                document.querySelectorAll('.section').forEach(section => {
-                    section.classList.remove('active');
-                });
-                
-                // Remover active de todos los botones
-                document.querySelectorAll('.nav-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                
-                // Mostrar sección seleccionada
-                const targetSection = document.getElementById(sectionId);
-                if (targetSection) {
-                    targetSection.classList.add('active');
-                }
-                
-                // Activar botón
-                if (button) {
-                    button.classList.add('active');
-                }
-            } catch (error) {
-                handleError(error, 'showSection');
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            document.getElementById(sectionId).classList.add('active');
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            if (button) {
+                button.classList.add('active');
             }
+            
+            document.getElementById(sectionId).classList.remove('fade-in');
+            setTimeout(() => {
+                document.getElementById(sectionId).classList.add('fade-in');
+            }, 10);
         }
-
-        // Manejar carga del modelo 3D
-        function handleModelLoad() {
-            try {
-                isModelLoaded = true;
-                const loadingOverlay = document.getElementById('model-loading');
-                const modelIframe = document.getElementById('model-iframe');
-                
-                if (loadingOverlay) {
-                    loadingOverlay.style.display = 'none';
-                }
-                
-                if (modelIframe) {
-                    modelIframe.classList.remove('hidden');
-                }
-                
-                console.log('Modelo 3D cargado correctamente');
-            } catch (error) {
-                handleError(error, 'handleModelLoad');
-            }
-        }
-
-        // Manejar error de carga del modelo 3D
-        function handleModelError() {
-            try {
-                const loadingOverlay = document.getElementById('model-loading');
-                const loadingText = document.getElementById('loading-text');
-                
-                if (loadingOverlay && loadingText) {
-                    loadingText.textContent = translations[currentLanguage]?.modelLoadError || 'Error al cargar el modelo 3D';
-                    loadingOverlay.style.background = 'rgba(220, 38, 38, 0.1)';
-                }
-                
-                showNotification(translations[currentLanguage]?.modelLoadError || 'Error al cargar el modelo 3D', 'error');
-                
-                console.error('Error al cargar el modelo 3D');
-            } catch (error) {
-                handleError(error, 'handleModelError');
-            }
-        }
-
-        // Mostrar instrucciones
-        function showInstructions() {
-            try {
-                const instructions = translations[currentLanguage]?.instructions || translations.es.instructions;
-                alert(instructions);
-            } catch (error) {
-                handleError(error, 'showInstructions');
-            }
-        }
-
-        // Rotar modelo (función simulada)
+        
         function rotateModel() {
-            try {
-                if (!isModelLoaded) {
-                    showNotification('El modelo aún se está cargando. Por favor, espere.', 'info');
-                    return;
-                }
-                
-                const message = translations[currentLanguage]?.rotateMessage || translations.es.rotateMessage;
-                showNotification(message, 'info');
-                
-                // En una implementación real, aquí se controlaría el modelo 3D
-                // mediante la API de Sketchfab para iniciar rotación automática
-            } catch (error) {
-                handleError(error, 'rotateModel');
-            }
+            const t = translations[selectedLanguage];
+            alert(t.instructions);
         }
-
-        // Alternar pantalla completa
-        function toggleFullscreen() {
-            try {
-                const modelContainer = document.querySelector('.model-container');
-                
-                if (!document.fullscreenElement && modelContainer) {
-                    if (modelContainer.requestFullscreen) {
-                        modelContainer.requestFullscreen();
-                    } else if (modelContainer.webkitRequestFullscreen) {
-                        modelContainer.webkitRequestFullscreen();
-                    } else if (modelContainer.msRequestFullscreen) {
-                        modelContainer.msRequestFullscreen();
-                    }
-                    
-                    isFullscreen = true;
-                    showNotification(translations[currentLanguage]?.fullscreenMessage || translations.es.fullscreenMessage, 'info');
-                } else {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    } else if (document.webkitExitFullscreen) {
-                        document.webkitExitFullscreen();
-                    } else if (document.msExitFullscreen) {
-                        document.msExitFullscreen();
-                    }
-                    
-                    isFullscreen = false;
-                }
-            } catch (error) {
-                handleError(error, 'toggleFullscreen');
-            }
-        }
-
-        // Mostrar notificación
-        function showNotification(message, type = 'info') {
-            try {
-                const notification = document.getElementById('notification');
-                if (!notification) return;
-                
-                notification.textContent = message;
-                notification.className = 'notification';
-                notification.classList.add(type);
-                notification.classList.add('show');
-                
-                // Ocultar notificación después de 5 segundos
-                setTimeout(() => {
-                    notification.classList.remove('show');
-                }, 5000);
-            } catch (error) {
-                console.error('Error al mostrar notificación:', error);
-            }
-        }
-
-        // Manejar errores
-        function handleError(error, context = 'unknown') {
-            console.error(`Error en ${context}:`, error);
-            
-            // Mostrar notificación de error al usuario
-            const errorMessage = translations[currentLanguage]?.errorMessage || translations.es.errorMessage;
-            showNotification(errorMessage, 'error');
-            
-            // En un entorno de producción, aquí podrías enviar el error a un servicio de monitoreo
+        
+        function showInstructions() {
+            const t = translations[selectedLanguage];
+            alert(t.instructions);
         }
     </script>
 </body>
